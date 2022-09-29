@@ -77,13 +77,14 @@ def column_cleaning (data):
  data[col] = data[col].apply(f)#para cambiar el tipo de dato de la columna EDAD de object a float
 
 
-
- def save_data(reporte, filename):
+def save_data (data, filename):
     # Guardar la tabla:
 
-    out_name = 'resumen_' + filename
+  
+    data = pd.DataFrame.to_csv(data, orient='index')
+    out_name = 'cleaning_data' + filename
     out_path = os.path.join(root_dir, 'data', 'processed', out_name)
-    reporte.to_csv(out_path)
+    data.to_csv(out_path)
 
 # %%
 def main():
@@ -91,5 +92,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
