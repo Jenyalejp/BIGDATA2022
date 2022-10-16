@@ -11,25 +11,36 @@ import pandas as pd
 from pathlib import Path
 import numpy as np
 from dateutil.parser import parse
+import re
 
-root_dir = Path(".").resolve()
+root_dir = Path(".").resolve()#para ubicacion de archivo # para devolver a la carpeta principal
+
+file_path = os.path.join(root_dir,"data","raw")
+file_path
 
 # %%
-def get_data(filename):
-    
-    data_dir = 'raw'
-    file_path = os.path.join(root_dir, "data", data_dir, filename)
 
-    datos = pd.read_csv(file_path, encoding='latin-1', sep=';')
-    print('get_data')
+def get_data(df):
+
+ datos = [ x for x in os.listdir() if re.search('.csv$',x)]
+ df= pd.DataFrame ()
+
+ for i in datos:
+    datos =pd.read_csv(i,
+    sep = ';',
+    encoding = 'latin-1')
+    df = pd.concat([datos,df])
+
     print('La tabla contiene', datos.shape[0], 'filas', datos.shape[1], 'columnas')
     return datos
 
+
 # %%
 def remove_duplicates(datos):
-  data = data.drop_duplicates() 
-  data.reset_index(inplace=True, drop=True) 
-  return data
+
+  datos = datos.drop_duplicates() 
+  datos.reset_index(inplace=True, drop=True) 
+  return datos
 
 
 # %%
@@ -77,18 +88,22 @@ def column_cleaning (data):
  data[col] = data[col].apply(f)#para cambiar el tipo de dato de la columna EDAD de object a float
 
 
-def save_data(reporte, filename): # Guardar tabla
-
-    out_name = 'Limpieza_' + filename # Indicar nombre al archivo de salida
-    out_path = os.path.join(root_dir, 'data', 'processed', out_name)
-    reporte.to_csv(out_path, sep=';')
+def save_data(reporte,df): # Guardar tabla
+    
+ root_dir=Path('.').resolve().parent
+    
+ out_name = 'llamadas123_2021_2022.csv'# Indicar nombre al archivo de salida
+ out_path = os.path.join(root_dir,'processed', out_name)
+ df.to_csv(out_path, sep=';')
 
 
 def main():
 
-    filename = "llamadas123_julio_2022.csv"
-    datos = get_data(filename)
-    save_data(datos, filename)
+    get_data
+    remove_duplicates
+    cleaning_date
+    column_cleaning 
+    save_data
     print('DONE')
 
 

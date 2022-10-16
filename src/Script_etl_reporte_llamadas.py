@@ -7,20 +7,16 @@ import os
 import pandas as pd
 from pathlib import Path
 
+root_dir = Path(".").resolve().parent
+
 
 def get_data(filename):
-    
-    root_dir = Path(".").resolve().parent #para ubicacion de archivo # para devolver a la carpeta principal
-    filename= 'llamadas123_julio_2022.csv'
 
-    file_path = os.path.join(root_dir,"data","raw",filename)
-    file_path
+ filename = "llamadas123_julio_2022.csv"
+ data_dir = "raw"
 
-
-    datos = pd.read_csv(file_path, encoding='latin-1', sep=';')
-    print('get_data')
-    print('La tabla contiene', datos.shape[0], 'filas', datos.shape[1], 'columnas')
-    return datos
+ file_path = os.path.join(root_dir, "data", data_dir, filename)
+ df = pd.read_csv(file_path, sep =";", encoding="latin-1")
 
 
 def generate_report(datos):
@@ -41,24 +37,20 @@ def generate_report(datos):
     return reporte
 
 
+def save_data(reporte,filename, step='resumen'):
+    # Guardar tabla
 
-def save_data(reporte, filename):
-    # Guardar la tabla:
-
-    root_dir = Path(".").resolve().parent
-
-    out_name = 'resumen_' + filename
-    out_path = os.path.join(root_dir, 'data', 'processed', out_name)
+    out_name = step + '_' + filename # Renombrar ya el archivo de salida
+    out_path =  os. path.join(root_dir,"data", "processed", out_name)
     reporte.to_csv(out_path)
 
 
 
 def main():
 
-    filename = "llamadas123_julio_2022.csv"
-    datos = get_data(filename)
-    reporte = generate_report(datos)
-    save_data(reporte, filename)
+    get_data
+    generate_report
+    save_data
 
     print('DONE!!!')
 if __name__ == '__main__':
